@@ -12,7 +12,13 @@ import {
   DeleteIcon,
   HR,
 } from './waves_styles'
-import { Button, CircularProgress, TextField, Fab } from '@material-ui/core'
+import {
+  Button,
+  CircularProgress,
+  TextField,
+  Fab,
+  Popover,
+} from '@material-ui/core'
 import { useEffect, useState } from 'react'
 import localForage from 'localforage'
 import {
@@ -39,6 +45,18 @@ const DataForm = ({ tabName }) => {
   const [PosCtrls, setPosCtrls] = useState([0, 0, 0])
   const [NegCtrls, setNegCtrls] = useState([0, 0, 0])
   const [Params, setParams] = useState([{ name: '', values: [0, 0, 0] }])
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
 
   /**
    * Get initial values from local database
@@ -96,12 +114,41 @@ const DataForm = ({ tabName }) => {
           size='small'
           color='secondary'
           startIcon={<DeleteForeverOutlined />}
-          onClick={() =>
-            localForage.setItem(tabName, null).then(window.location.reload())
-          }
+          onClick={handleClick}
         >
           Reset Form
         </Button>
+
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'center',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'center',
+            horizontal: 'right',
+          }}
+        >
+          <Grid cols={2} align='center' style={{ padding: '1em' }}>
+            <b style={{ color: '#ff1744' }}>Are you sure?</b>
+
+            <Button
+              variant='contained'
+              color='secondary'
+              size='small'
+              onClick={async () => {
+                await localForage.setItem(tabName, null)
+                window.location.reload()
+              }}
+            >
+              CLEAR
+            </Button>
+          </Grid>
+        </Popover>
       </Grid>
       <Spacer />
 

@@ -86,3 +86,23 @@ export const Paragraph = styled.p`
     font-size: 0.9em;
   }
 `
+
+export const ResultList = styled.div``
+
+export const ResultRow = styled.div`
+  display: grid;
+  grid-template-columns: 8em auto;
+  grid-gap: 2em;
+  margin: 1em 0;
+  border-bottom: 1px solid lightblue;
+  padding-bottom: 0.5em;
+`
+
+export const Key = styled.span`
+  color: #4f5963;
+`
+
+export const Value = styled.b`
+  color: #38afff;
+  font-size: 1.1em;
+`

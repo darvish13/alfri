@@ -5,10 +5,14 @@ import {
   Tab,
   Container,
   Paragraph,
+  ResultList,
+  ResultRow,
+  Key,
+  Value,
 } from './colorimetric_styles'
 import { useEffect, useState } from 'react'
-import LowerWaves from '../waves/LowerWaves'
-import HigherWaves from '../waves/HigherWaves'
+import DataForm from '../waves/DataForm'
+// import HigherWaves from '../waves/HigherWaves'
 import localForage from 'localforage'
 import {
   Grid,
@@ -19,6 +23,7 @@ import {
 } from '../waves/waves_styles'
 import { Button, CircularProgress, Fab } from '@material-ui/core'
 import { BlurLinearOutlined, BlurOn } from '@material-ui/icons'
+import { calcReduction } from '../waves/Calculations'
 
 /**
  * Colorimetrics
@@ -29,6 +34,7 @@ const Colorimetric = () => {
    */
   const [TabName, setTabName] = useState('lower')
   const [Loading, setLoading] = useState(false)
+  const [Results, setResults] = useState([])
 
   /**
    * Setting state values in indexedDB
@@ -63,8 +69,8 @@ const Colorimetric = () => {
   /**
    * Render tabs
    */
-  const RenderTabs = () =>
-    TabName === 'lower' ? <LowerWaves /> : <HigherWaves />
+  // const RenderTabs = () =>
+  //   TabName === 'lower' ? <DataForm /> : <HigherWaves />
 
   /**
    * Render
@@ -76,6 +82,20 @@ const Colorimetric = () => {
       </LoadingWrapper>
     )
 
+  /**
+   * Render Results
+   */
+  const RenderResults = () =>
+    Results.map(({ name, value }) => (
+      <ResultRow>
+        <Key>{name}:</Key>
+        <Value>{value}</Value>
+      </ResultRow>
+    ))
+
+  /**
+   * Render
+   */
   return (
     <>
       <Container>
@@ -103,7 +123,8 @@ const Colorimetric = () => {
             </Tab>
           </TabBar>
 
-          <RenderTabs />
+          {/* <RenderTabs /> */}
+          <DataForm tabName={TabName} />
 
           <HR />
           <Subtitle>Calculations</Subtitle>
@@ -126,10 +147,25 @@ const Colorimetric = () => {
               size='small'
               color='primary'
               startIcon={<BlurLinearOutlined />}
+              // onClick={calcReduction}
+              onClick={async () => setResults(await calcReduction())}
             >
               Reduction
             </Button>
           </Grid>
+
+          <Spacer />
+
+          <HR />
+          <Subtitle>Results</Subtitle>
+
+          <Spacer />
+
+          <ResultList>
+            <RenderResults />
+          </ResultList>
+
+          <Spacer />
         </Card>
       </Container>
     </>

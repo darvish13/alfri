@@ -71,10 +71,13 @@ export const RenderInputs = ({ list, setList, listKeyName, localDbKey }) =>
 /**
  * Render Params
  */
-export const RenderParams = ({ list, setList, listKeyName, localDbKey }) => (
+export const RenderParams = (
+  { list, setList, listKeyName, localDbKey },
+  index
+) => (
   <InputsRow style={{ marginRight: '-1.5em' }}>
     {list.map(({ name, values }, index) => (
-      <Col margin='0 0.85em'>
+      <Col margin='0 0.85em' key={index}>
         <Spacer />
 
         <Button
@@ -206,7 +209,7 @@ const RenderParamInputs = ({
   localDbKey,
 }) =>
   values.map((value, index) => (
-    <InputWrapper>
+    <InputWrapper key={index}>
       <TextField
         value={value}
         onChange={async ({ target: { value } }) => {

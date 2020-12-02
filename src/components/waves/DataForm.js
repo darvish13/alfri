@@ -27,9 +27,9 @@ import { addInput, RenderInputs, RenderParams } from './HandleInputs'
 import { Paragraph } from '../colorimetric/colorimetric_styles'
 
 /**
- * Lower waves form
+ * Data form
  */
-const LowerWaves = () => {
+const DataForm = ({ tabName }) => {
   /**
    * States
    */
@@ -47,17 +47,21 @@ const LowerWaves = () => {
     getLocalValues()
   }, [])
 
+  useEffect(() => {
+    getLocalValues()
+  }, [tabName])
+
   /**
    * Get local values
    */
   const getLocalValues = async () => {
-    const lower = await localForage.getItem('lower')
+    const localDB = await localForage.getItem(tabName)
 
-    if (lower) {
-      const { oxid, reduced, posCtrls, negCtrls, params } = lower
+    if (localDB) {
+      const { oxid, reduced, posCtrls, negCtrls, params } = localDB
 
-      oxid && setOxid(oxid)
-      reduced && setReduced(reduced)
+      oxid ? setOxid(oxid) : setOxid(0)
+      reduced ? setReduced(reduced) : setReduced(0)
       posCtrls && setPosCtrls(posCtrls)
       negCtrls && setNegCtrls(negCtrls)
       params && setParams(params)
@@ -78,7 +82,10 @@ const LowerWaves = () => {
 
   return (
     <Container>
-      <Subtitle>Lower Wavelengths Data Form:</Subtitle>
+      <Subtitle>
+        <b style={{ textTransform: 'capitalize' }}>{tabName}</b> Wavelengths
+        Data Form:
+      </Subtitle>
 
       <Spacer />
       <Grid cols={2} gap='1em' align='center'>
@@ -90,7 +97,7 @@ const LowerWaves = () => {
           color='secondary'
           startIcon={<DeleteForeverOutlined />}
           onClick={() =>
-            localForage.setItem('lower', null).then(window.location.reload())
+            localForage.setItem(tabName, null).then(window.location.reload())
           }
         >
           Reset Form
@@ -108,14 +115,14 @@ const LowerWaves = () => {
             onChange={async ({ target: { value } }) => {
               setOxid(value)
 
-              const lower = await localForage.getItem('lower')
-              await localForage.setItem('lower', {
-                ...lower,
+              const localDB = await localForage.getItem(tabName)
+              await localForage.setItem(tabName, {
+                ...localDB,
                 oxid: value,
               })
             }}
             label='Oxidised (O)'
-            defaultValue={Oxid || 0.80586}
+            defaultValue={Oxid || 0}
             fullWidth
           />
 
@@ -124,14 +131,14 @@ const LowerWaves = () => {
             onChange={async ({ target: { value } }) => {
               setReduced(value)
 
-              const lower = await localForage.getItem('lower')
-              await localForage.setItem('lower', {
-                ...lower,
+              const localDB = await localForage.getItem(tabName)
+              await localForage.setItem(tabName, {
+                ...localDB,
                 reduced: value,
               })
             }}
             label='Reduced (R)'
-            defaultValue={Reduced || 0.155677}
+            defaultValue={Reduced || 0}
             fullWidth
           />
         </Grid>
@@ -157,7 +164,7 @@ const LowerWaves = () => {
                 list={NegCtrls}
                 setList={setNegCtrls}
                 listKeyName='negCtrls'
-                localDbKey='lower'
+                localDbKey={tabName}
               />
               <Spacer />
 
@@ -170,7 +177,7 @@ const LowerWaves = () => {
                     list: NegCtrls,
                     setList: setNegCtrls,
                     listKeyName: 'negCtrls',
-                    localDbKey: 'lower',
+                    localDbKey: { tabName },
                   })
                 }
               >
@@ -191,7 +198,7 @@ const LowerWaves = () => {
                 list={PosCtrls}
                 setList={setPosCtrls}
                 listKeyName='posCtrls'
-                localDbKey='lower'
+                localDbKey={tabName}
               />
 
               <Spacer />
@@ -205,7 +212,7 @@ const LowerWaves = () => {
                     list: PosCtrls,
                     setList: setPosCtrls,
                     listKeyName: 'posCtrls',
-                    localDbKey: 'lower',
+                    localDbKey: { tabName },
                   })
                 }
               >
@@ -226,11 +233,11 @@ const LowerWaves = () => {
           list={Params}
           setList={setParams}
           listKeyName='params'
-          localDbKey='lower'
+          localDbKey={tabName}
         />
       </form>
     </Container>
   )
 }
 
-export default LowerWaves
+export default DataForm

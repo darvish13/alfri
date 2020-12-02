@@ -183,6 +183,16 @@ const Colorimetric = () => {
           <Spacer />
 
           <ResultList>
+            <ResultRow>
+              <Key>
+                <b>Parameter</b>
+              </Key>
+
+              <Value>
+                <b>Value</b>
+              </Value>
+            </ResultRow>
+
             <RenderResults />
           </ResultList>
 

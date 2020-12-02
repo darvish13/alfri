@@ -46,7 +46,7 @@ export const calcReduction = async () => {
     })
 
     let headers = [
-      { label: 'Name', key: 'name' },
+      { label: 'Parameter', key: 'name' },
       { label: 'Value', key: 'value' },
     ]
 

@@ -45,6 +45,11 @@ export const calcReduction = async () => {
       concents_high,
     })
 
+    let headers = [
+      { label: 'Name', key: 'name' },
+      { label: 'Value', key: 'value' },
+    ]
+
     const results = concents_low.map(({ name, value: concent_low }, index) => ({
       name,
       value:  (
@@ -66,7 +71,7 @@ export const calcReduction = async () => {
       )
     }))
 
-    return results
+    return { headers, results }
   }
 
   return []

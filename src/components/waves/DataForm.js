@@ -122,7 +122,8 @@ const DataForm = ({ tabName }) => {
               })
             }}
             label='Oxidised (O)'
-            defaultValue={Oxid || 0}
+            // defaultValue={Oxid || 0}
+            placeholder={tabName == 'lower' ? '' : ''}
             fullWidth
           />
 
@@ -138,7 +139,8 @@ const DataForm = ({ tabName }) => {
               })
             }}
             label='Reduced (R)'
-            defaultValue={Reduced || 0}
+            // defaultValue={Reduced || 0}
+            placeholder={tabName == 'lower' ? '' : ''}
             fullWidth
           />
         </Grid>

@@ -22,8 +22,9 @@ import {
   Subtitle,
 } from '../waves/waves_styles'
 import { Button, CircularProgress, Fab } from '@material-ui/core'
-import { BlurLinearOutlined, BlurOn } from '@material-ui/icons'
+import { BlurLinearOutlined, BlurOn, FilterNone } from '@material-ui/icons'
 import { calcReduction } from '../waves/Calculations'
+import { CSVLink } from 'react-csv'
 
 /**
  * Colorimetrics
@@ -35,6 +36,7 @@ const Colorimetric = () => {
   const [TabName, setTabName] = useState('lower')
   const [Loading, setLoading] = useState(false)
   const [Results, setResults] = useState([])
+  const [Headers, setHeaders] = useState([])
 
   /**
    * Setting state values in indexedDB
@@ -148,7 +150,11 @@ const Colorimetric = () => {
               color='primary'
               startIcon={<BlurLinearOutlined />}
               // onClick={calcReduction}
-              onClick={async () => setResults(await calcReduction())}
+              onClick={async () => {
+                const { headers, results } = await calcReduction()
+                setHeaders(headers)
+                setResults(results)
+              }}
             >
               Reduction
             </Button>
@@ -157,7 +163,22 @@ const Colorimetric = () => {
           <Spacer />
 
           <HR />
-          <Subtitle>Results</Subtitle>
+          <Grid cols={2} align='center'>
+            <Subtitle>Results</Subtitle>
+
+            <div style={{ textAlign: 'right' }}>
+              <CSVLink
+                data={Results}
+                headers={Headers}
+                style={{ textDecoration: 'none', color: 'darkgray' }}
+                filename='Alamar_Blue_Results.csv'
+              >
+                <Button variant='contained'>
+                  <b>Download</b>
+                </Button>
+              </CSVLink>
+            </div>
+          </Grid>
 
           <Spacer />
 

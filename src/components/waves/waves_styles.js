@@ -17,6 +17,7 @@ export const Grid = styled.div`
   grid-template-columns: repeat(${({ cols }) => cols}, 1fr);
   grid-gap: ${({ gap }) => (gap ? gap : '2em')};
   align-items: ${({ align }) => align || 'start'};
+  justify-content: ${({ justify }) => justify || 'start'};
 `
 
 export const Subtitle = styled.h2`

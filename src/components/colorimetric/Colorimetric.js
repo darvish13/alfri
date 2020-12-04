@@ -23,7 +23,7 @@ import {
 } from '../waves/waves_styles'
 import { Button, CircularProgress, Fab } from '@material-ui/core'
 import { BlurLinearOutlined, BlurOn, FilterNone } from '@material-ui/icons'
-import { calcReduction } from '../waves/Calculations'
+import { calcDiffer, calcReduction } from '../waves/Calculations'
 import { CSVLink } from 'react-csv'
 
 /**
@@ -139,6 +139,11 @@ const Colorimetric = () => {
               size='small'
               color='primary'
               aria-label='add'
+              onClick={async () => {
+                const { headers, results } = await calcDiffer()
+                setHeaders(headers)
+                setResults(results)
+              }}
             >
               <BlurOn />
               Difference

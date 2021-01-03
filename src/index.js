@@ -4,35 +4,10 @@ import './index.css'
 import App from './App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { StylesProvider } from '@material-ui/core/styles'
-
-const theme = createMuiTheme({
-  palette: {
-    common: { black: '#000', white: '#fff' },
-    background: { paper: '#fff', default: '#fafafa' },
-    primary: {
-      light: '#74c7ff',
-      main: '#38afff',
-      dark: '#22608a',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff3e63',
-      main: '#ff1744',
-      dark: '#ca1336',
-      contrastText: '#fff',
-    },
-  },
-})
 
 ReactDOM.render(
   <React.StrictMode>
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </StylesProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 )

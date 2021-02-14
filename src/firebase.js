@@ -5,6 +5,7 @@ import firebase from 'firebase'
 firebase.initializeApp({
   apiKey: 'AIzaSyCnbaNil1EzmOfpaECTboW9wvAx2NkOdjY',
   authDomain: 'alfri-94de8.firebaseapp.com',
+  databaseURL: 'https://alfri-94de8.firebaseio.com',
   projectId: 'alfri-94de8',
   storageBucket: 'alfri-94de8.appspot.com',
   messagingSenderId: '457427186760',
